@@ -1,0 +1,8 @@
+estacionamiento para maximo 100 autos
+si capacidad llena informa no hay lugares (ver como)
+fecha y hora de ingreso/egreso
+consulta de autos: 
+cuantos estacionados, cuantos espacios libres
+lista de autos estacionados ordenados por fecha y hora de ingreso, ademas de facturacion
+
+ddetecciones de ingreso/egreso : OCR, notificando con metodos IngresoDetectado(patente) EgresoDetectado(patente)
