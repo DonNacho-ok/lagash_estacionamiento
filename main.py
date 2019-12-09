@@ -10,43 +10,57 @@ class App():
     def __init__(self):
         self.root = Tk()
         self.root.title('Gestion Estacionamiento')
-        self.root.geometry("988x613+1638+155")
-        self.root.minsize(1, 1)
+        self.root.geometry("988x632+271+133")
+        self.root.minsize(120, 1)
         self.root.maxsize(2951, 870)
         self.root.resizable(1, 1)
+        self.root.configure(background='#787878')
 
         self.patente_add = StringVar()
         self.patente_search = StringVar()
-        self.patente_search.trace('w', lambda name, index, mode: self.update_list())
         self.espacio_total = '100'
         self.espacio_libre = 100
         self.espacio_ocupado = 0
+        self.patente_egreso = StringVar()
+        self.horas_estacionadas = IntVar()
+        self.total_facturado = IntVar()
+        self.lista_obj = []
 
-        self.Ingress_button = ttk.Button(self.root, text='Ingreso Patente', state='normal', command=self.Ingreso_Manual())
+        self.Ingress_button = ttk.Button(self.root, text='Ingreso Patente', state='normal', command=self.Ingreso_Manual)
         self.Entry_add = ttk.Entry(self.root, textvariable=self.patente_add, width=5)
-        self.Egress_button = ttk.Button(self.root, text='Egreso Patente Seleccionada', command=self.Egreso_Manual())
-        self.search_label = ttk.Label(self.root, text='Buscar Pantente')
-        self.search_Entry = ttk.Entry(self.root, textvariable=self.patente_search, width=5)
-        self.listBox = ttk.Listbox(self.root)
+        self.Egress_button = ttk.Button(self.root, text='Egreso Patente Seleccionada', command=self.Egreso_Manual)
+        self.listBox = Listbox(self.root)
         self.total_space_Label = ttk.Label(self.root, text='Total de espacios:')
         self.Free_space_Label = ttk.Label(self.root, text='Espacios Libres:')
         self.Occu_Space_Label = ttk.Label(self.root, text='Espacios Ocupados:')
-        self.totals_Label = ttk.Label(self.root, textvariable=self.espacio_total)
+        self.totals_Label = ttk.Label(self.root, text=self.espacio_total)
         self.frees_Label = ttk.Label(self.root, text=self.espacio_libre)
         self.occus_Label = ttk.Label(self.root, text=self.espacio_ocupado)
-        self.Notif_space_Label = ttk.Label(self.root, text='Hay Espacio Libre', fg='green')
-        self.listBox.place(relx=0.466, rely=0.131, relheight=0.842, relwidth=0.52)
-        self.search_label.place(relx=0.486, rely=0.065, height=31, width=129)
-        self.Ingress_button.place(relx=0.081, rely=0.114, height=51, width=81)
-        self.Egress_button.place(relx=0.081, rely=0.277, height=51, width=81)
-        self.Entry_add.place(relx=0.02, rely=0.212, height=33, relwidth=0.229)
-        self.search_Entry.place(relx=0.678, rely=0.065, height=33, relwidth=0.229)
-        self.total_space_Label.place(relx=0.02, rely=0.44, height=31, width=159)
-        self.Free_space_Label.place(relx=0.02, rely=0.522, height=41, width=159)
-        self.Occu_Space_Label.place(relx=0.03, rely=0.62, height=41, width=139)
-        self.totals_Label.place(relx=0.243, rely=0.457, height=21, width=39)
-        self.frees_Label.place(relx=0.243, rely=0.538, height=21, width=39)
-        self.occus_Label.place(relx=0.243, rely=0.636, height=21, width=39)
+        self.Notif_space_Label = ttk.Label(self.root, text='Hay Espacio Libre')
+        self.show_patent_Label = ttk.Label(self.root, text='Patente Egresada:')
+        self.show_hour_Label = ttk.Label(self.root, text='Horas estacionadas:')
+        self.show_total_Label = ttk.Label(self.root, text='Total a pagar:')
+        self.patent_Label = ttk.Label(self.root, textvariable=self.patente_egreso)
+        self.hour_Label = ttk.Label(self.root, textvariable=self.horas_estacionadas)
+        self.total_Label = ttk.Label(self.root, textvariable=self.total_facturado)
+
+        self.listBox.place(relx=0.455, rely=0.016, relheight=0.959, relwidth=0.52)
+        self.Entry_add.place(relx=0.02, rely=0.142,height=33, relwidth=0.229)
+        self.Ingress_button.place(relx=0.081, rely=0.047, height=51, width=95)
+        self.Egress_button.place(relx=0.263, rely=0.047, height=51, width=170)
+        self.total_space_Label.place(relx=0.02, rely=0.237, height=31, width=159)
+        self.Free_space_Label.place(relx=0.02, rely=0.316, height=41, width=159)
+        self.Occu_Space_Label.place(relx=0.03, rely=0.396, height=41, width=139)
+        self.totals_Label.place(relx=0.192, rely=0.237, height=31, width=44)
+        self.frees_Label.place(relx=0.192, rely=0.316, height=31, width=44)
+        self.occus_Label.place(relx=0.202, rely=0.411, height=21, width=34)
+        self.Notif_space_Label.place(relx=0.04, rely=0.491, height=41, width=344)
+        self.show_patent_Label.place(relx=0.01, rely=0.601, height=21, width=100)
+        self.show_hour_Label.place(relx=0.01, rely=0.665, height=21, width=110)
+        self.show_total_Label.place(relx=0.01, rely=0.728, height=21, width=74)
+        self.patent_Label.place(relx=0.120, rely=0.601, height=21, width=44)
+        self.hour_Label.place(relx=0.130, rely=0.665, height=21, width=65)
+        self.total_Label.place(relx=0.101, rely=0.729, height=21, width=65)
 
         self.update_labels()
         self.root.mainloop()
@@ -60,33 +74,38 @@ class App():
             error = True
         if not error:
             unaPatente = patente.Patente(patent, datetim, '', 0)
+            self.lista_obj.append(unaPatente)
             self.listBox.insert(END, unaPatente.toStringLite())
             self.espacio_libre -= 1
             self.espacio_ocupado += 1
+            self.update_labels()
 
     def Egreso_Manual(self):
-        print(self.lista_patentes.curselection()[0])
-        self.lista_patentes.delete(self.lista_patentes.curselection()[0])
-
-    def update_list(self):
-        search_term = self.patente_search.get()
-        lista = []
-        for item in self.lista_patentes:
-            lista.append(item)
-        self.lista_patentes.delete(0, END)
-        for item in lista:
-            if search_term.lower() in item.lower():
-                self.lista_patentes.insert(END, item)
+        indice = self.listBox.curselection()[0]
+        self.lista_obj[indice].setFechaEgreso(datetime.now())
+        diff = self.lista_obj[indice].getFechaEgreso() - self.lista_obj[indice].getFechaIngreso()
+        total_segundos = diff.total_seconds()
+        total_horas = ((total_segundos/60)/60)
+        total_factu = total_horas * 115
+        self.lista_obj[indice].setTotalFacturado(total_factu)
+        self.patente_egreso.set(self.lista_obj[indice].getPatente())
+        self.horas_estacionadas.set(total_horas)
+        self.total_facturado.set(total_factu)
+        self.lista_obj.pop(indice)
+        self.listBox.delete(self.listBox.curselection()[0])
+        self.espacio_libre += 1
+        self.espacio_ocupado -= 1
+        self.update_labels()
 
     def update_labels(self):
         self.frees_Label.configure(text=self.espacio_libre)
         self.occus_Label.configure(text=self.espacio_ocupado)
         if self.espacio_ocupado >= 100:
-            self.Notif_space_Label.configure(fg='red')
-            self.Ingress_button.configure(state='disabled')
+            self.Notif_space_Label.configure(text='No hay Mas espacios Libres', background='#787878', foreground='#ff0000', anchor=CENTER)
+            self.Ingress_button.place_forget()
         else:
-            self.Ingress_button.configure(state='normal')
-
+            self.Notif_space_Label.configure(text='Hay Espacios Libres', background='#787878', foreground='#00e81c', anchor=CENTER)
+            self.Ingress_button.place(relx=0.081, rely=0.047, height=51, width=95)
 
 def aplic():
     ap = App()
